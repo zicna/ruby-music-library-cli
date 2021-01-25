@@ -1,3 +1,5 @@
+require 'pry'
+
 class Song
     #belongs to an artist
     #belong to genre
@@ -58,6 +60,26 @@ class Song
         else 
             self.find_by_name(name)
         end
+    end
+
+    def self.new_from_filename(filename)
+        # binding.pry
+       info = filename.split(" - ")
+        name = info[1]
+    #    artist = info[0]
+    #    genre = info[2].gsub(".mp3", "")
+       #song = Song.new(name, artist, genre)
+       #binding.pry
+
+       genre = Genre.find_or_create_by_name(info[2].gsub(".mp3", ""))
+       artist = Artist.find_or_create_by_name(info[0])
+
+       song = Song.new(name, artist, genre)
+    end
+
+    def self.create_from_filename(filename)
+        @@all << self.new_from_filename(filename)
+
     end
 
     
